@@ -15,6 +15,7 @@ Reusable R/Bioconductor-oriented pipeline for comparing pre-mRNA splicing patter
 ## Expected inputs
 
 - Coordinate-sorted and indexed BAM files for nascent transcriptomics data.
+- Stranded BAM files. The pipeline will keep strand orientation configurable per experiment.
 - One folder per condition, containing 2-3 biological replicates.
 - Genome annotation in GTF/GFF3 format.
 - Human hg38 genome annotation in GTF/GFF3 format.
@@ -70,8 +71,9 @@ logs/            Runtime logs, ignored by Git.
 
 1. Copy `config/experiment_template.yml` to a new experiment-specific file.
 2. Fill in condition names, replicate BAM paths, annotation, genome, and output directory.
-3. Install the R environment described in `env/bioconductor_packages.R`.
-4. Run the planned pipeline entry point:
+3. Confirm whether the stranded BAMs should be interpreted as forward/sense or reverse/antisense.
+4. Install the R environment described in `env/bioconductor_packages.R`.
+5. Run the planned pipeline entry point:
 
 ```bash
 Rscript scripts/run_pipeline.R --config config/my_experiment.yml

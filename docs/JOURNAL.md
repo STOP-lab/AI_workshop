@@ -7,10 +7,11 @@
 - Selected R/Bioconductor as the preferred implementation direction.
 - Added initial configuration template, repository layout, README, plan, memory, and placeholder scripts.
 - Recorded human hg38 as the fixed genome build for analyses.
+- Recorded that input BAM files should be treated as stranded; exact strand orientation remains configurable.
 
 ## Next entry should record
 
 - Real server directory conventions.
 - Example BAM names and annotation source.
-- Confirmed strandedness and library layout for POINT-seq datasets.
+- Confirmed strand orientation and library layout for POINT-seq datasets.
 - Preferred GitHub repository URL.

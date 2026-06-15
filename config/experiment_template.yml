@@ -7,7 +7,8 @@ project:
 
 analysis:
   paired_end: false
-  strandedness: reverse
+  strandedness: stranded
+  strand_orientation: reverse
   min_mapq: 20
   count_multimappers: false
   merge_replicates: true
