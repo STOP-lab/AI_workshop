@@ -5,6 +5,10 @@ project:
   annotation_gtf: /path/to/annotation.gtf
   output_dir: results/point_seq_splicing_example
 
+inputs:
+  sample_sheet: config/input_files_template.xlsx
+  sample_sheet_name: Samples
+
 analysis:
   paired_end: false
   strandedness: stranded

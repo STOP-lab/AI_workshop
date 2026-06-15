@@ -35,12 +35,19 @@ cp config/experiment_template.yml config/my_experiment.yml
 
 Edit `config/my_experiment.yml` to point to:
 
-- condition folders,
-- replicate BAM files,
+- the experiment-specific Excel sample workbook,
 - hg38 GTF/GFF3 annotation,
 - desired output directory,
 - strand orientation,
 - server resource settings.
+
+Copy and edit the Excel input template:
+
+```bash
+cp config/input_files_template.xlsx config/my_experiment_input_files.xlsx
+```
+
+Fill in the `Samples` sheet with one included row per replicate. Use absolute server paths for BAM and BAI files.
 
 ## Run
 

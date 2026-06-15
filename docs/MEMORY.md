@@ -13,6 +13,7 @@
 - Git/GitHub should be used for version control.
 - Final analyses will run on the server without Codex access.
 - The server is expected to have R and all necessary libraries installed.
+- Experiment sample metadata should be provided through an Excel workbook template when practical.
 
 ## Required analysis modules
 

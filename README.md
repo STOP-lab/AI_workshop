@@ -19,6 +19,7 @@ The pipeline is intended to run directly on the analysis server without Codex ac
 - Coordinate-sorted and indexed BAM files for nascent transcriptomics data.
 - Stranded BAM files. The pipeline will keep strand orientation configurable per experiment.
 - One folder per condition, containing 2-3 biological replicates.
+- Excel input workbook listing sample IDs, condition labels, replicate numbers, BAM paths, and optional BAI paths.
 - Genome annotation in GTF/GFF3 format.
 - Human hg38 genome annotation in GTF/GFF3 format.
 - Reference genome metadata and chromosome naming compatible with hg38 BAM files.
@@ -72,10 +73,11 @@ logs/            Runtime logs, ignored by Git.
 ## Quick start
 
 1. Copy `config/experiment_template.yml` to a new experiment-specific file.
-2. Fill in condition names, replicate BAM paths, annotation, genome, and output directory.
-3. Confirm whether the stranded BAMs should be interpreted as forward/sense or reverse/antisense.
-4. Install the R environment described in `env/bioconductor_packages.R`.
-5. Run the planned pipeline entry point:
+2. Copy `config/input_files_template.xlsx` to an experiment-specific workbook and fill in the `Samples` sheet.
+3. Fill in annotation, output directory, and sample workbook path in the YAML config.
+4. Confirm whether the stranded BAMs should be interpreted as forward/sense or reverse/antisense.
+5. Install the R environment described in `env/bioconductor_packages.R`.
+6. Run the planned pipeline entry point:
 
 ```bash
 Rscript scripts/run_pipeline.R --config config/my_experiment.yml

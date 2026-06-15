@@ -3,6 +3,7 @@
 ## Phase 1 - Foundation
 
 - Define experiment configuration schema.
+- Add Excel input workbook support for experiment sample metadata.
 - Build annotation import and validation utilities.
 - Validate BAM presence, indexes, chromosome naming, strandedness, and replicate metadata.
 - Establish output directory conventions and logging.

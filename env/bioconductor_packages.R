@@ -8,6 +8,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE)) {
 cran_packages <- c(
   "argparse",
   "yaml",
+  "readxl",
   "data.table",
   "dplyr",
   "ggplot2",

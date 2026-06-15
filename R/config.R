@@ -6,15 +6,25 @@ read_experiment_config <- function(path) {
     stop("Config file does not exist: ", path, call. = FALSE)
   }
   cfg <- yaml::read_yaml(path)
+  cfg$.config_path <- normalizePath(path, winslash = "/", mustWork = TRUE)
+  cfg$.config_dir <- dirname(cfg$.config_path)
   validate_experiment_config(cfg)
   cfg
 }
 
 validate_experiment_config <- function(cfg) {
-  required_top_level <- c("project", "analysis", "conditions")
+  required_top_level <- c("project", "analysis")
   missing_top_level <- setdiff(required_top_level, names(cfg))
   if (length(missing_top_level) > 0) {
     stop("Config is missing required sections: ", paste(missing_top_level, collapse = ", "), call. = FALSE)
+  }
+
+  if (!is.null(cfg$inputs$sample_sheet)) {
+    return(invisible(TRUE))
+  }
+
+  if (is.null(cfg$conditions)) {
+    stop("Config requires either inputs.sample_sheet or inline conditions.", call. = FALSE)
   }
 
   condition_names <- names(cfg$conditions)

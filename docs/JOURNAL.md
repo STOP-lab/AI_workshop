@@ -10,6 +10,7 @@
 - Recorded that input BAM files should be treated as stranded; exact strand orientation remains configurable.
 - Recorded that final analysis will run on the server without Codex, using installed R and R/Bioconductor libraries.
 - Added a server runbook for clone/configure/run workflow.
+- Added an Excel input template for sample/BAM metadata and wired the R scaffold to read it.
 
 ## Next entry should record
 
