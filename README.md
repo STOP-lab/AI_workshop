@@ -2,6 +2,8 @@
 
 Reusable R/Bioconductor-oriented pipeline for comparing pre-mRNA splicing patterns between two experimental conditions using aligned POINT-seq BAM files.
 
+The pipeline is intended to run directly on the analysis server without Codex access. Codex is used only during development; server execution should rely on Git, R, installed R/Bioconductor libraries, and standard command-line tools.
+
 ## Goals
 
 - Compare nascent transcription between two conditions.
@@ -80,6 +82,8 @@ Rscript scripts/run_pipeline.R --config config/my_experiment.yml
 ```
 
 The current repository is an initial scaffold. Implementation will be added module by module following `docs/PLAN.md`.
+
+For server execution details, see `docs/SERVER_RUNBOOK.md`.
 
 ## Output design
 

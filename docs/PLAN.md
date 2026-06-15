@@ -33,6 +33,7 @@
 - Produce run-level HTML/Quarto report.
 - Save machine-readable tables and diagnostic plots.
 - Document assumptions, package versions, and server execution instructions.
+- Ensure the pipeline can run from a cloned GitHub repository on the server without Codex.
 - Add tests using small synthetic or downsampled BAM fixtures.
 
 ## Open method decisions

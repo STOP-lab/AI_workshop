@@ -8,6 +8,8 @@
 - Added initial configuration template, repository layout, README, plan, memory, and placeholder scripts.
 - Recorded human hg38 as the fixed genome build for analyses.
 - Recorded that input BAM files should be treated as stranded; exact strand orientation remains configurable.
+- Recorded that final analysis will run on the server without Codex, using installed R and R/Bioconductor libraries.
+- Added a server runbook for clone/configure/run workflow.
 
 ## Next entry should record
 

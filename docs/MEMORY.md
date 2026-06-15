@@ -11,6 +11,8 @@
 - Analyses must include replicate-by-replicate comparisons and merged-condition comparisons.
 - Preferred implementation language is R with Bioconductor packages where possible.
 - Git/GitHub should be used for version control.
+- Final analyses will run on the server without Codex access.
+- The server is expected to have R and all necessary libraries installed.
 
 ## Required analysis modules
 
