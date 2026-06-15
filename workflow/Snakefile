@@ -1,0 +1,15 @@
+# Optional workflow layer for server execution.
+# The first implementation can call R scripts directly; this file reserves the
+# workflow entry point for reproducible multi-step runs.
+
+configfile: "config/experiment_template.yml"
+
+rule all:
+    input:
+        "results/.pipeline_scaffold_ready"
+
+rule scaffold_ready:
+    output:
+        "results/.pipeline_scaffold_ready"
+    shell:
+        "mkdir -p results && Rscript scripts/run_pipeline.R --config {configfile} && touch {output}"

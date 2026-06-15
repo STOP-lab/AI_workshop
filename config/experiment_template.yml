@@ -1,0 +1,37 @@
+project:
+  name: point_seq_splicing_example
+  organism: Homo sapiens
+  genome_build: GRCh38
+  annotation_gtf: /path/to/annotation.gtf
+  output_dir: results/point_seq_splicing_example
+
+analysis:
+  paired_end: false
+  strandedness: reverse
+  min_mapq: 20
+  count_multimappers: false
+  merge_replicates: true
+  replicate_pairing: all_by_index
+  normalize_intron_coverage_by: nascent_gene_expression
+
+conditions:
+  condition_a:
+    label: control
+    bam_dir: /server/path/control
+    replicates:
+      - sample_id: control_rep1
+        bam: /server/path/control/control_rep1.bam
+      - sample_id: control_rep2
+        bam: /server/path/control/control_rep2.bam
+  condition_b:
+    label: treated
+    bam_dir: /server/path/treated
+    replicates:
+      - sample_id: treated_rep1
+        bam: /server/path/treated/treated_rep1.bam
+      - sample_id: treated_rep2
+        bam: /server/path/treated/treated_rep2.bam
+
+resources:
+  threads: 8
+  memory_gb: 32
