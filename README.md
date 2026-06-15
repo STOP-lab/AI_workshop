@@ -17,7 +17,9 @@ Reusable R/Bioconductor-oriented pipeline for comparing pre-mRNA splicing patter
 - Coordinate-sorted and indexed BAM files for nascent transcriptomics data.
 - One folder per condition, containing 2-3 biological replicates.
 - Genome annotation in GTF/GFF3 format.
-- Reference genome metadata and chromosome naming compatible with the BAM files.
+- Human hg38 genome annotation in GTF/GFF3 format.
+- Reference genome metadata and chromosome naming compatible with hg38 BAM files.
+- BAM index files (`.bai`) for efficient region-based access.
 
 Example:
 

@@ -6,6 +6,7 @@
 - Captured project scope: two experimental conditions, 2-3 replicates per condition, server-side BAM inputs, replicate-level and merged-condition analyses.
 - Selected R/Bioconductor as the preferred implementation direction.
 - Added initial configuration template, repository layout, README, plan, memory, and placeholder scripts.
+- Recorded human hg38 as the fixed genome build for analyses.
 
 ## Next entry should record
 

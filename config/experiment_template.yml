@@ -1,7 +1,7 @@
 project:
   name: point_seq_splicing_example
   organism: Homo sapiens
-  genome_build: GRCh38
+  genome_build: hg38
   annotation_gtf: /path/to/annotation.gtf
   output_dir: results/point_seq_splicing_example
 
