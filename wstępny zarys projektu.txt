@@ -1,0 +1,2 @@
+Celem projektu będzie ustawienie pipeline do analizy splicing pre-mRNA w danych NGS typu POINTseq, z wykorzystaniem istniejących narzędzi R w przestrzeni Bioconductor, oraz analiza danych już opublikowanych jak również aktualnie nowo-generowanych danych w naszym laboratorium. 
+Z uwagi na duży rozmiar danych analiza będzie prawdopodobnie prowadzona na serwerze naszego laboratorium. 
