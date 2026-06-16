@@ -11,6 +11,7 @@
 - Recorded that final analysis will run on the server without Codex, using installed R and R/Bioconductor libraries.
 - Added a server runbook for clone/configure/run workflow.
 - Added an Excel input template for sample/BAM metadata and wired the R scaffold to read it.
+- Added requirements for top-100 BED-like coordinate files and BigWig genome browser tracks.
 
 ## Next entry should record
 

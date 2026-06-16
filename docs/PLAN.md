@@ -33,6 +33,8 @@
 
 - Produce run-level HTML/Quarto report.
 - Save machine-readable tables and diagnostic plots.
+- Export BED/BED-like coordinate files with the top 100 most significantly changed regions for each analysis module.
+- Export BigWig tracks for alternative splicing events and other browser-friendly splicing signals.
 - Document assumptions, package versions, and server execution instructions.
 - Ensure the pipeline can run from a cloned GitHub repository on the server without Codex.
 - Add tests using small synthetic or downsampled BAM fixtures.
@@ -42,4 +44,5 @@
 - Best statistical model for POINT-seq intron retention and splicing efficiency.
 - Whether merged-condition analysis should merge BAMs or merge count matrices.
 - Whether alternative splicing should rely on junction counts, exon/intron bins, or external event callers.
+- Exact score definitions for BED top-region files and BigWig signal tracks per module.
 - Organism-specific annotation cleanup rules.

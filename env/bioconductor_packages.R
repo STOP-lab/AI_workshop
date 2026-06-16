@@ -27,6 +27,7 @@ bioc_packages <- c(
   "IRanges",
   "Rsamtools",
   "rtracklayer",
+  "trackViewer",
   "SummarizedExperiment"
 )
 

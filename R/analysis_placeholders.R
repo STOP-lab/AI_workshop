@@ -17,3 +17,11 @@ run_alternative_splicing <- function(sample_table, cfg) {
 run_splicing_efficiency <- function(sample_table, cfg) {
   stop("Splicing efficiency module is not implemented yet.", call. = FALSE)
 }
+
+export_top_changed_regions <- function(results, cfg, analysis_name) {
+  stop("Top changed region BED export module is not implemented yet.", call. = FALSE)
+}
+
+export_bigwig_tracks <- function(results, cfg, track_set) {
+  stop("BigWig genome browser track export module is not implemented yet.", call. = FALSE)
+}

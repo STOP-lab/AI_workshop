@@ -37,6 +37,7 @@ Edit `config/my_experiment.yml` to point to:
 
 - the experiment-specific Excel sample workbook,
 - hg38 GTF/GFF3 annotation,
+- hg38 chromosome sizes file,
 - desired output directory,
 - strand orientation,
 - server resource settings.
@@ -66,5 +67,6 @@ snakemake -s workflow/Snakefile --cores 8
 - Confirm BAMs are coordinate-sorted.
 - Confirm every BAM has a `.bai` index.
 - Confirm BAM chromosome names match the hg38 annotation style, for example `chr1` versus `1`.
+- Confirm the hg38 chromosome sizes file uses the same chromosome naming style as the BAMs and annotation.
 - Confirm the configured strand orientation matches the POINT-seq library preparation.
 - Confirm output and log directories are writable.

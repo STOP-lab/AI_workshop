@@ -3,6 +3,7 @@ project:
   organism: Homo sapiens
   genome_build: hg38
   annotation_gtf: /path/to/annotation.gtf
+  chrom_sizes: /path/to/hg38.chrom.sizes
   output_dir: results/point_seq_splicing_example
 
 inputs:
@@ -18,6 +19,19 @@ analysis:
   merge_replicates: true
   replicate_pairing: all_by_index
   normalize_intron_coverage_by: nascent_gene_expression
+
+outputs:
+  top_regions_n: 100
+  coordinate_formats:
+    - bed
+    - bedgraph
+  genome_browser_tracks:
+    bigwig: true
+    track_sets:
+      - alternative_splicing_events
+      - intron_retention_signal
+      - normalized_intron_coverage
+      - splicing_efficiency_signal
 
 conditions:
   condition_a:

@@ -23,10 +23,13 @@
 - Alternative splicing between conditions.
 - Spliced/unspliced ratio and splicing index.
 - Differential splicing efficiency.
+- BED-like coordinate files with the 100 most significantly changed regions should be produced for each analysis module.
+- BigWig tracks should be produced for alternative splicing events and other genome-browser-friendly splicing signals.
 
 ## Unknowns to resolve
 
 - Annotation file source and version.
 - POINT-seq strand orientation and paired/single-end mode.
 - Whether BAM merging is allowed/desirable on the server or count-level merging is preferred.
+- Exact BigWig signal definitions for alternative splicing and differential splicing efficiency.
 - Server scheduler environment, if any.

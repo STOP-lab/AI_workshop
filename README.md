@@ -22,6 +22,7 @@ The pipeline is intended to run directly on the analysis server without Codex ac
 - Excel input workbook listing sample IDs, condition labels, replicate numbers, BAM paths, and optional BAI paths.
 - Genome annotation in GTF/GFF3 format.
 - Human hg38 genome annotation in GTF/GFF3 format.
+- hg38 chromosome sizes file for BigWig export.
 - Reference genome metadata and chromosome naming compatible with hg38 BAM files.
 - BAM index files (`.bai`) for efficient region-based access.
 
@@ -99,7 +100,20 @@ Each run should produce:
 - Alternative splicing event tables.
 - Spliced/unspliced ratio and splicing index tables.
 - Differential splicing efficiency tables.
+- BED-like coordinate files with the 100 most significantly changed regions for each analysis module.
+- BigWig tracks for visualization of detected alternative splicing events and related splicing signals.
 - HTML or Quarto report with plots and methods metadata.
+
+## Genome browser outputs
+
+The pipeline should produce browser-friendly files for results where genomic localization is meaningful:
+
+- Top 100 changed regions per analysis module as BED or BED-like coordinate files.
+- Alternative splicing events as BED12-style event tracks where event structure can be represented.
+- BigWig signal tracks for alternative splicing event support, intron retention signal, normalized intron coverage, and splicing efficiency signal.
+- Optional bedGraph intermediates before BigWig conversion.
+
+Other outputs that should visualize well in IGV/UCSC/JBrowse include differential intron retention regions, condition-specific intron coverage, spliced/unspliced signal tracks, splice junction support, and differential nascent transcription over gene bodies.
 
 ## GitHub
 
