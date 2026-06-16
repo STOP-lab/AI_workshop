@@ -84,7 +84,7 @@ logs/            Runtime logs, ignored by Git.
 Rscript scripts/run_pipeline.R --config config/my_experiment.yml
 ```
 
-The current repository is an initial scaffold. Implementation will be added module by module following `docs/PLAN.md`.
+The repository contains a first server-runnable implementation of the core pipeline. See `docs/METHODS.md` for current statistical choices and limitations.
 
 For server execution details, see `docs/SERVER_RUNBOOK.md`.
 

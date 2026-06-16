@@ -24,6 +24,7 @@ bioc_packages <- c(
   "GenomicAlignments",
   "GenomicFeatures",
   "GenomicRanges",
+  "GenomeInfoDb",
   "IRanges",
   "Rsamtools",
   "rtracklayer",
