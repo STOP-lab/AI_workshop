@@ -16,6 +16,7 @@ source("R/counting.R")
 source("R/differential.R")
 source("R/replicate_comparisons.R")
 source("R/browser_exports.R")
+source("R/reporting.R")
 
 cfg <- read_experiment_config(args$config)
 sample_table <- build_sample_table(cfg)
@@ -67,5 +68,8 @@ results <- list(
 )
 saveRDS(results, file.path(project_output_dir(cfg), "pipeline_results.rds"))
 export_bigwig_tracks(results, cfg)
+
+message("Rendering PDF report.")
+render_pdf_report(cfg, sample_table, results)
 
 message("Pipeline complete. Results written to: ", project_output_dir(cfg))

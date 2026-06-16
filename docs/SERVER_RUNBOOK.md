@@ -56,7 +56,7 @@ Fill in the `Samples` sheet with one included row per replicate. Use absolute se
 Rscript scripts/run_pipeline.R --config config/my_experiment.yml
 ```
 
-The run writes count matrices, differential tables, replicate-pairwise summaries, merged-condition summaries, BED/bedGraph browser files, attempted BigWig tracks, and `pipeline_results.rds` under the configured output directory.
+The run writes count matrices, differential tables, replicate-pairwise summaries, merged-condition summaries, BED/bedGraph browser files, attempted BigWig tracks, a PDF report, and `pipeline_results.rds` under the configured output directory.
 
 For future workflow-managed runs, the optional Snakemake entry point is:
 
@@ -72,4 +72,5 @@ snakemake -s workflow/Snakefile --cores 8
 - Confirm the hg38 chromosome sizes file uses the same chromosome naming style as the BAMs and annotation.
 - Confirm the configured strand orientation matches the POINT-seq library preparation.
 - Confirm output and log directories are writable.
-- Confirm `DESeq2`, `GenomicAlignments`, `GenomicFeatures`, `Rsamtools`, `rtracklayer`, `readxl`, and related dependencies load in R.
+- Confirm `DESeq2`, `GenomicAlignments`, `GenomicFeatures`, `Rsamtools`, `rtracklayer`, `readxl`, `rmarkdown`, and related dependencies load in R.
+- Confirm the server has a LaTeX installation available for `rmarkdown::pdf_document`.

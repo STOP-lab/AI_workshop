@@ -1,0 +1,161 @@
+---
+title: "POINT-seq Splicing Analysis Report"
+output:
+  pdf_document:
+    toc: true
+    number_sections: true
+params:
+  output_dir: "."
+  generated_at: ""
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+safe_head <- function(x, n = 10) {
+  if (is.null(x) || nrow(x) == 0) {
+    return(data.frame(note = "No rows available"))
+  }
+  utils::head(x, n)
+}
+
+sig_summary <- function(x, label) {
+  if (is.null(x) || !"padj" %in% names(x)) {
+    return(data.frame(analysis = label, tested_features = NA_integer_, padj_lt_0_05 = NA_integer_))
+  }
+  data.frame(
+    analysis = label,
+    tested_features = nrow(x),
+    padj_lt_0_05 = sum(!is.na(x$padj) & x$padj < 0.05),
+    stringsAsFactors = FALSE
+  )
+}
+
+condition_counts <- as.data.frame(table(sample_table$condition), stringsAsFactors = FALSE)
+names(condition_counts) <- c("condition", "sample_count")
+```
+
+# Run Summary
+
+Generated: `r params$generated_at`
+
+Project: `r cfg$project$name`
+
+Genome build: `r cfg$project$genome_build`
+
+Annotation: `r cfg$project$annotation_gtf`
+
+Output directory: `r params$output_dir`
+
+# Input Samples
+
+```{r input-samples}
+knitr::kable(sample_table, caption = "Included samples and BAM files")
+```
+
+```{r sample-counts}
+knitr::kable(condition_counts, caption = "Number of included samples per condition")
+```
+
+# Input Data Statistics
+
+```{r count-statistics}
+count_stats <- data.frame(
+  sample_id = sample_table$sample_id,
+  gene_counts = colSums(DESeq2::counts(results$gene$dds)[, sample_table$sample_id, drop = FALSE]),
+  intron_counts = colSums(DESeq2::counts(results$intron_retention$dds)[, sample_table$sample_id, drop = FALSE]),
+  exon_bin_counts = colSums(DESeq2::counts(results$alternative_splicing$dds)[, sample_table$sample_id, drop = FALSE]),
+  stringsAsFactors = FALSE
+)
+knitr::kable(count_stats, caption = "Assigned feature counts per sample")
+```
+
+```{r count-plot, fig.height=4, fig.width=7}
+if (requireNamespace("ggplot2", quietly = TRUE)) {
+  long_counts <- rbind(
+    data.frame(sample_id = count_stats$sample_id, feature_type = "Gene", assigned_counts = count_stats$gene_counts),
+    data.frame(sample_id = count_stats$sample_id, feature_type = "Intron", assigned_counts = count_stats$intron_counts),
+    data.frame(sample_id = count_stats$sample_id, feature_type = "Exon bin", assigned_counts = count_stats$exon_bin_counts)
+  )
+  ggplot2::ggplot(long_counts, ggplot2::aes(x = sample_id, y = assigned_counts, fill = feature_type)) +
+    ggplot2::geom_col(position = "dodge") +
+    ggplot2::theme_bw() +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)) +
+    ggplot2::labs(x = "Sample", y = "Assigned counts", fill = "Feature type")
+}
+```
+
+# Key Results Summary
+
+```{r result-summary}
+summary_table <- rbind(
+  sig_summary(results$gene$table, "Differential nascent transcription"),
+  sig_summary(results$intron_retention$table, "Differential intron retention"),
+  sig_summary(results$alternative_splicing$table, "Alternative splicing exon usage"),
+  sig_summary(results$splicing_efficiency$table, "Differential splicing efficiency")
+)
+knitr::kable(summary_table, caption = "Significant feature summary")
+```
+
+# Differential Nascent Transcription
+
+```{r top-genes}
+knitr::kable(
+  safe_head(results$gene$table[, intersect(c("feature_id", "gene_id", "seqnames", "start", "end", "log2FoldChange", "pvalue", "padj"), names(results$gene$table)), drop = FALSE]),
+  caption = "Top differential nascent transcription results"
+)
+```
+
+# Normalized Intron Coverage
+
+```{r top-normalized-intron}
+knitr::kable(
+  safe_head(results$normalized_intron$table[, intersect(c("feature_id", "gene_id", "seqnames", "start", "end", "log2_fold_change"), names(results$normalized_intron$table)), drop = FALSE]),
+  caption = "Top normalized intron coverage changes"
+)
+```
+
+# Differential Intron Retention
+
+```{r top-ir}
+knitr::kable(
+  safe_head(results$intron_retention$table[, intersect(c("feature_id", "gene_id", "seqnames", "start", "end", "log2FoldChange", "pvalue", "padj"), names(results$intron_retention$table)), drop = FALSE]),
+  caption = "Top differential intron retention results"
+)
+```
+
+# Alternative Splicing
+
+```{r top-as}
+knitr::kable(
+  safe_head(results$alternative_splicing$table[, intersect(c("feature_id", "gene_id", "seqnames", "start", "end", "log2FoldChange", "pvalue", "padj"), names(results$alternative_splicing$table)), drop = FALSE]),
+  caption = "Top exon-bin alternative splicing proxy results"
+)
+```
+
+# Splicing Efficiency
+
+```{r top-se}
+knitr::kable(
+  safe_head(results$splicing_efficiency$table[, intersect(c("feature_id", "gene_id", "seqnames", "start", "end", "log2FoldChange", "pvalue", "padj"), names(results$splicing_efficiency$table)), drop = FALSE]),
+  caption = "Top differential splicing efficiency results"
+)
+```
+
+# Genome Browser Outputs
+
+The pipeline writes BED, bedGraph, and attempted BigWig outputs under:
+
+```{r browser-files}
+browser_dir <- file.path(params$output_dir, "browser")
+browser_files <- if (dir.exists(browser_dir)) {
+  data.frame(file = list.files(browser_dir, recursive = TRUE), stringsAsFactors = FALSE)
+} else {
+  data.frame(file = "No browser output directory found", stringsAsFactors = FALSE)
+}
+knitr::kable(browser_files, caption = "Genome browser output files")
+```
+
+# Notes
+
+The first implementation uses exon-bin differential usage as an alternative splicing proxy. Event-specific alternative splicing calls can be added after validating the behavior on pilot POINT-seq data.

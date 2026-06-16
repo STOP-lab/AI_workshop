@@ -50,3 +50,8 @@ This document describes the current server-runnable implementation. The methods 
 - Top-region BED files are exported for each main analysis.
 - bedGraph files are exported for effect-size tracks.
 - BigWig export is attempted with `rtracklayer`; bedGraph files remain available if a BigWig conversion fails.
+
+## PDF report
+
+- A PDF report is rendered with `rmarkdown` after the pipeline finishes.
+- The report includes input sample metadata, assigned count statistics, significant-result summaries, key top-result tables, and a list of genome browser output files.

@@ -32,6 +32,7 @@
 ## Phase 5 - Reporting and reuse
 
 - Produce run-level HTML/Quarto report.
+- Done: Produce a run-level PDF report with input metadata, count statistics, key result summaries, and top tables.
 - Save machine-readable tables and diagnostic plots.
 - Done: Export BED/BED-like coordinate files with the top 100 most significantly changed regions for each analysis module.
 - Done: Export bedGraph files and attempt BigWig tracks for alternative splicing events and other browser-friendly splicing signals.

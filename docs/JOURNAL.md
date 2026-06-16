@@ -13,6 +13,7 @@
 - Added an Excel input template for sample/BAM metadata and wired the R scaffold to read it.
 - Added requirements for top-100 BED-like coordinate files and BigWig genome browser tracks.
 - Implemented first server-runnable R/Bioconductor pipeline modules for counting, differential analyses, replicate/merged summaries, BED/bedGraph export, and attempted BigWig export.
+- Added PDF report generation with input metadata, count statistics, key results, top tables, and genome browser output inventory.
 
 ## Next entry should record
 

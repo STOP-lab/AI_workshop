@@ -26,6 +26,7 @@
 - Differential splicing efficiency.
 - BED-like coordinate files with the 100 most significantly changed regions should be produced for each analysis module.
 - BigWig tracks should be produced for alternative splicing events and other genome-browser-friendly splicing signals.
+- A PDF report should be generated for each run with input data statistics and key analysis tables.
 
 ## Unknowns to resolve
 

@@ -12,6 +12,7 @@ cran_packages <- c(
   "data.table",
   "dplyr",
   "ggplot2",
+  "knitr",
   "rmarkdown",
   "testthat"
 )

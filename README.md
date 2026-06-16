@@ -102,6 +102,7 @@ Each run should produce:
 - Differential splicing efficiency tables.
 - BED-like coordinate files with the 100 most significantly changed regions for each analysis module.
 - BigWig tracks for visualization of detected alternative splicing events and related splicing signals.
+- PDF report summarizing input files, input statistics, key result tables, and genome browser outputs.
 - HTML or Quarto report with plots and methods metadata.
 
 ## Genome browser outputs
