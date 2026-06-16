@@ -14,6 +14,7 @@
 - Added requirements for top-100 BED-like coordinate files and BigWig genome browser tracks.
 - Implemented first server-runnable R/Bioconductor pipeline modules for counting, differential analyses, replicate/merged summaries, BED/bedGraph export, and attempted BigWig export.
 - Added PDF report generation with input metadata, count statistics, key results, top tables, and genome browser output inventory.
+- Added a server requirements checklist covering system software, R packages, and reference/input files.
 
 ## Next entry should record
 

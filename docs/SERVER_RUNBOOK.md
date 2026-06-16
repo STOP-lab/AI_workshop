@@ -10,6 +10,8 @@ This project is designed to run on the analysis server without access to Codex.
 - Human hg38 annotation files are available on the server filesystem.
 - The repository is obtained from GitHub or copied to the server.
 
+See `docs/SERVER_REQUIREMENTS.md` for the full installation checklist.
+
 ## First-time setup on the server
 
 ```bash

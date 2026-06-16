@@ -88,6 +88,8 @@ The repository contains a first server-runnable implementation of the core pipel
 
 For server execution details, see `docs/SERVER_RUNBOOK.md`.
 
+For the full server installation checklist, see `docs/SERVER_REQUIREMENTS.md`.
+
 ## Output design
 
 Each run should produce:
