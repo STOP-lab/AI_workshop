@@ -28,9 +28,34 @@ count_features <- function(features, sample_table, cfg, label) {
 
   write_tsv(
     data.frame(feature_id = rownames(count_matrix), count_matrix, check.names = FALSE),
+    file.path(project_output_dir(cfg), "counts", paste0(label, "_raw_bam_counts.tsv"))
+  )
+
+  collapsed_counts <- collapse_strand_split_counts(count_matrix, sample_table)
+  write_tsv(
+    data.frame(feature_id = rownames(collapsed_counts), collapsed_counts, check.names = FALSE),
     file.path(project_output_dir(cfg), "counts", paste0(label, "_counts.tsv"))
   )
-  count_matrix
+  collapsed_counts
+}
+
+collapse_strand_split_counts <- function(count_matrix, sample_table) {
+  if (!"biological_sample_id" %in% names(sample_table)) {
+    return(count_matrix)
+  }
+
+  biological_ids <- sample_table$biological_sample_id
+  if (identical(biological_ids, sample_table$sample_id)) {
+    return(count_matrix)
+  }
+
+  collapsed <- sapply(unique(biological_ids), function(biological_id) {
+    raw_samples <- sample_table$sample_id[biological_ids == biological_id]
+    rowSums(count_matrix[, raw_samples, drop = FALSE])
+  })
+  collapsed <- as.matrix(collapsed)
+  rownames(collapsed) <- rownames(count_matrix)
+  collapsed
 }
 
 count_splice_junctions <- function(sample_table, cfg) {

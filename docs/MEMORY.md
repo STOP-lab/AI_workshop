@@ -15,6 +15,7 @@
 - The server is expected to have R and all necessary libraries installed.
 - Experiment sample metadata should be provided through an Excel workbook template when practical.
 - The current implementation is server-runnable but should be validated on real or pilot POINT-seq BAMs before biological interpretation.
+- The server data may contain forward/reverse strand-split BAMs for the same biological replicate; those should be grouped with `biological_sample_id` and collapsed after counting.
 
 ## Required analysis modules
 

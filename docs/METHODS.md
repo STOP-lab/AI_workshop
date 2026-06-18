@@ -15,6 +15,7 @@ This document describes the current server-runnable implementation. The methods 
 - BAM feature counts are generated with `GenomicAlignments::summarizeOverlaps`.
 - Counting is strand-aware. Reverse-stranded libraries are handled with `GenomicAlignments::invertStrand`.
 - Count matrices are generated for genes, intron intervals, and exon bins.
+- Strand-split BAMs are supported by assigning multiple BAM rows to one `biological_sample_id`; raw BAM counts are written first, then counts are summed by biological sample for downstream analyses.
 - Splice junction summaries are attempted per BAM with `GenomicAlignments::summarizeJunctions`.
 
 ## Differential nascent transcription

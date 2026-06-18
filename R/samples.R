@@ -11,10 +11,17 @@ build_sample_table <- function(cfg) {
       replicate <- condition$replicates[[i]]
       rows[[length(rows) + 1]] <- data.frame(
         sample_id = replicate$sample_id,
+        biological_sample_id = replicate$biological_sample_id %||% replicate$sample_id,
+        strand_split = replicate$strand_split %||% "unsplit",
         condition = condition_label,
         condition_key = condition_name,
         replicate_index = i,
         bam = replicate$bam,
+        bai = replicate$bai %||% NA_character_,
+        stranded = "yes",
+        strand_orientation = cfg$analysis$strand_orientation %||% "reverse",
+        paired_end = if (isTRUE(cfg$analysis$paired_end)) "yes" else "no",
+        notes = NA_character_,
         stringsAsFactors = FALSE
       )
     }
@@ -83,8 +90,19 @@ read_sample_sheet <- function(cfg) {
     stop("strand_orientation must be one of: ", paste(allowed_orientations, collapse = ", "), call. = FALSE)
   }
 
+  biological_sample_id <- if ("biological_sample_id" %in% names(raw)) as.character(raw$biological_sample_id) else as.character(raw$sample_id)
+  biological_sample_id[is.na(biological_sample_id) | biological_sample_id == ""] <- as.character(raw$sample_id[is.na(biological_sample_id) | biological_sample_id == ""])
+  strand_split <- if ("strand_split" %in% names(raw)) tolower(as.character(raw$strand_split)) else rep("unsplit", nrow(raw))
+  strand_split[is.na(strand_split) | strand_split == ""] <- "unsplit"
+  allowed_splits <- c("unsplit", "fw", "rev", "forward", "reverse")
+  if (any(!strand_split %in% allowed_splits)) {
+    stop("strand_split must be one of: ", paste(allowed_splits, collapse = ", "), call. = FALSE)
+  }
+
   data.frame(
     sample_id = as.character(raw$sample_id),
+    biological_sample_id = biological_sample_id,
+    strand_split = strand_split,
     condition = as.character(raw$condition_label),
     condition_key = as.character(raw$condition_key),
     replicate_index = as.integer(raw$replicate_index),
@@ -96,6 +114,52 @@ read_sample_sheet <- function(cfg) {
     notes = if ("notes" %in% names(raw)) as.character(raw$notes) else NA_character_,
     stringsAsFactors = FALSE
   )
+}
+
+collapse_sample_table <- function(sample_table, cfg) {
+  if (!"biological_sample_id" %in% names(sample_table)) {
+    sample_table$biological_sample_id <- sample_table$sample_id
+  }
+  if (!"strand_split" %in% names(sample_table)) {
+    sample_table$strand_split <- "unsplit"
+  }
+
+  split_map <- unique(sample_table[, c(
+    "biological_sample_id",
+    "condition",
+    "condition_key",
+    "replicate_index",
+    "stranded",
+    "strand_orientation",
+    "paired_end"
+  ), drop = FALSE])
+
+  duplicated_bio <- split_map$biological_sample_id[duplicated(split_map$biological_sample_id)]
+  if (length(duplicated_bio) > 0) {
+    stop(
+      "Rows with the same biological_sample_id must share condition, replicate_index, strandedness, and paired_end metadata: ",
+      paste(unique(duplicated_bio), collapse = ", "),
+      call. = FALSE
+    )
+  }
+
+  split_map$sample_id <- split_map$biological_sample_id
+  split_map$bam <- NA_character_
+  split_map$bai <- NA_character_
+  split_map$notes <- "Counts collapsed from one or more BAM rows."
+  split_map[, c(
+    "sample_id",
+    "biological_sample_id",
+    "condition",
+    "condition_key",
+    "replicate_index",
+    "bam",
+    "bai",
+    "stranded",
+    "strand_orientation",
+    "paired_end",
+    "notes"
+  )]
 }
 
 resolve_sample_sheet_path <- function(cfg) {

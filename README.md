@@ -20,6 +20,7 @@ The pipeline is intended to run directly on the analysis server without Codex ac
 - Stranded BAM files. The pipeline will keep strand orientation configurable per experiment.
 - One folder per condition, containing 2-3 biological replicates.
 - Excel input workbook listing sample IDs, condition labels, replicate numbers, BAM paths, and optional BAI paths.
+- For strand-split BAMs, two rows can represent one biological replicate by sharing the same `biological_sample_id` and using `strand_split` values such as `fw` and `rev`.
 - Genome annotation in GTF/GFF3 format.
 - Human hg38 genome annotation in GTF/GFF3 format.
 - hg38 chromosome sizes file for BigWig export.
@@ -106,6 +107,22 @@ Each run should produce:
 - BigWig tracks for visualization of detected alternative splicing events and related splicing signals.
 - PDF report summarizing input files, input statistics, key result tables, and genome browser outputs.
 - HTML or Quarto report with plots and methods metadata.
+
+## Strand-split BAMs
+
+If each biological replicate is split into separate forward and reverse BAMs, keep one row per BAM in the Excel input file, but give both rows the same `biological_sample_id`.
+
+Example:
+
+```text
+sample_id           biological_sample_id  strand_split  condition_key  replicate_index
+control_rep1_fw     control_rep1          fw            condition_a    1
+control_rep1_rev    control_rep1          rev           condition_a    1
+setd2ko_rep1_fw     setd2ko_rep1          fw            condition_b    1
+setd2ko_rep1_rev    setd2ko_rep1          rev           condition_b    1
+```
+
+The pipeline counts each BAM separately, writes raw BAM-level count matrices, then sums rows sharing the same `biological_sample_id` before DESeq2 and downstream analyses.
 
 ## Genome browser outputs
 

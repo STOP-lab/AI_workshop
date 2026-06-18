@@ -19,11 +19,15 @@ source("R/browser_exports.R")
 source("R/reporting.R")
 
 cfg <- read_experiment_config(args$config)
-sample_table <- build_sample_table(cfg)
-cfg <- validate_input_files(sample_table, cfg)
+raw_sample_table <- build_sample_table(cfg)
+cfg <- validate_input_files(raw_sample_table, cfg)
+sample_table <- collapse_sample_table(raw_sample_table, cfg)
 
 message("Loaded ", nrow(sample_table), " samples across ", length(unique(sample_table$condition)), " conditions.")
 message("Samples: ", paste(sample_table$sample_id, collapse = ", "))
+if (nrow(raw_sample_table) != nrow(sample_table)) {
+  message("Collapsed ", nrow(raw_sample_table), " BAM rows into ", nrow(sample_table), " biological samples.")
+}
 
 annotation <- load_hg38_annotation(cfg)
 gene_features <- make_gene_features(annotation)
@@ -31,10 +35,10 @@ intron_features <- make_intron_features(annotation)
 exon_features <- make_exon_bin_features(annotation)
 
 message("Counting gene, intron, and exon-bin features.")
-gene_counts <- count_features(gene_features, sample_table, cfg, "gene")
-intron_counts <- count_features(intron_features, sample_table, cfg, "intron")
-exon_counts <- count_features(exon_features, sample_table, cfg, "exon_bin")
-junction_counts <- count_splice_junctions(sample_table, cfg)
+gene_counts <- count_features(gene_features, raw_sample_table, cfg, "gene")
+intron_counts <- count_features(intron_features, raw_sample_table, cfg, "intron")
+exon_counts <- count_features(exon_features, raw_sample_table, cfg, "exon_bin")
+junction_counts <- count_splice_junctions(raw_sample_table, cfg)
 
 message("Writing merged-condition and replicate-pairwise count summaries.")
 write_merged_condition_counts(gene_counts, feature_metadata(gene_features), sample_table, cfg, "gene")

@@ -15,6 +15,7 @@
 - Implemented first server-runnable R/Bioconductor pipeline modules for counting, differential analyses, replicate/merged summaries, BED/bedGraph export, and attempted BigWig export.
 - Added PDF report generation with input metadata, count statistics, key results, top tables, and genome browser output inventory.
 - Added a server requirements checklist covering system software, R packages, and reference/input files.
+- Added support for strand-split BAMs by collapsing raw BAM-level counts to biological samples before downstream analyses.
 
 ## Next entry should record
 

@@ -52,6 +52,8 @@ cp config/input_files_template.xlsx config/my_experiment_input_files.xlsx
 
 Fill in the `Samples` sheet with one included row per replicate. Use absolute server paths for BAM and BAI files.
 
+If the replicate is split into forward and reverse BAMs, use one row per BAM and set the same `biological_sample_id` for both rows. For example, `control_rep1_fw` and `control_rep1_rev` should both have `biological_sample_id = control_rep1`.
+
 ## Run
 
 ```bash
