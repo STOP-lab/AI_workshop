@@ -30,7 +30,8 @@ bioc_packages <- c(
   "Rsamtools",
   "rtracklayer",
   "trackViewer",
-  "SummarizedExperiment"
+  "SummarizedExperiment",
+  "txdbmaker"
 )
 
 install_if_missing <- function(pkgs, bioc = FALSE) {

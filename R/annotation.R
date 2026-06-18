@@ -5,8 +5,14 @@ load_hg38_annotation <- function(cfg) {
 
   gtf <- resolve_path(cfg$project$annotation_gtf, cfg$.config_dir %||% getwd(), must_work = TRUE)
   message("Loading annotation: ", gtf)
-  txdb <- GenomicFeatures::makeTxDbFromGFF(gtf)
+  txdb <- if (requireNamespace("txdbmaker", quietly = TRUE)) {
+    txdbmaker::makeTxDbFromGFF(gtf)
+  } else {
+    GenomicFeatures::makeTxDbFromGFF(gtf)
+  }
+  message("Extracting gene features from annotation.")
   genes <- GenomicFeatures::genes(txdb)
+  message("Extracting exon features from annotation.")
   exons_by_gene <- GenomicFeatures::exonsBy(txdb, by = "gene")
   list(txdb = txdb, genes = genes, exons_by_gene = exons_by_gene)
 }
@@ -21,6 +27,7 @@ make_gene_features <- function(annotation) {
 
 make_exon_bin_features <- function(annotation) {
   require_package("GenomicRanges")
+  message("Building exon-bin features.")
   exon_list <- GenomicRanges::reduce(annotation$exons_by_gene)
   exon_bins <- unlist(exon_list, use.names = FALSE)
   gene_ids <- rep(names(exon_list), lengths(exon_list))
@@ -32,6 +39,7 @@ make_exon_bin_features <- function(annotation) {
 
 make_intron_features <- function(annotation) {
   require_package("GenomicRanges")
+  message("Building intron features.")
   genes <- make_gene_features(annotation)
   exons <- GenomicRanges::reduce(annotation$exons_by_gene)
   shared <- intersect(names(genes), names(exons))
@@ -40,7 +48,12 @@ make_intron_features <- function(annotation) {
 
   for (gene_id in shared) {
     gene <- genes[match(gene_id, names(genes))]
-    introns <- GenomicRanges::setdiff(gene, exons[[gene_id]], ignore.strand = FALSE)
+    introns <- tryCatch(
+      GenomicRanges::setdiff(gene, exons[[gene_id]], ignore.strand = FALSE),
+      error = function(e) {
+        stop("Failed while building introns for gene_id '", gene_id, "': ", conditionMessage(e), call. = FALSE)
+      }
+    )
     if (length(introns) > 0) {
       introns$gene_id <- gene_id
       intron_parts[[gene_id]] <- introns
@@ -48,6 +61,9 @@ make_intron_features <- function(annotation) {
   }
 
   intron_parts <- intron_parts[lengths(intron_parts) > 0]
+  if (length(intron_parts) == 0) {
+    stop("No intron features could be created from the annotation.", call. = FALSE)
+  }
   introns <- unlist(GenomicRanges::GRangesList(intron_parts), use.names = FALSE)
   gene_ids <- introns$gene_id
   introns$feature_id <- paste0(gene_ids, ":intron_", ave(seq_along(gene_ids), gene_ids, FUN = seq_along))

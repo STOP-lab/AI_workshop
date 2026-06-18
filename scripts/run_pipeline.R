@@ -30,8 +30,11 @@ if (nrow(raw_sample_table) != nrow(sample_table)) {
 }
 
 annotation <- load_hg38_annotation(cfg)
+message("Preparing gene features.")
 gene_features <- make_gene_features(annotation)
+message("Preparing intron features.")
 intron_features <- make_intron_features(annotation)
+message("Preparing exon-bin features.")
 exon_features <- make_exon_bin_features(annotation)
 
 message("Counting gene, intron, and exon-bin features.")
